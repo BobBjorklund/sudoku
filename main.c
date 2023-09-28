@@ -18,18 +18,22 @@ int main() {
                 failFlag = 1;
                 break;
             }
-            // printf("c[%d] = %d",j,c[j]);
         }
         if (failFlag) {
             printf("no bueno\n");
             return 0;
-        } else {
-            // for (int k = 0; k < 9; k++) {
-            //     c[k] = 0;
-            // }
         }
         printf("%d %d %d %d %d %d %d %d %d\n",c[0],c[1],c[2],c[3],c[4],c[5],c[6],c[7],c[8]);
         printf("\n");
+    }
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            c[s[j][i]-1] = c[s[j][i]-1]+1;
+            if (c[s[j][i]-1] > i+1) {
+                failFlag = 1;
+                break;
+            }
+        }
     }
     printf("that's a good solution\n");
 }
