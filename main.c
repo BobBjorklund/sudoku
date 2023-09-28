@@ -20,6 +20,9 @@ int main() {
             c[s[i][j]-1] = c[s[i][j]-1]+1;
             c2[s[j][i]-1] = c2[s[j][i]-1]+1;
             if (c[s[i][j]-1] > i+1 || c2[s[j][i]-1] > i+1) {
+                tput setaf 31;
+                printf("Invalid solution");
+                tput setaf 37;
                 failFlag = 1;
                 break;
             }
