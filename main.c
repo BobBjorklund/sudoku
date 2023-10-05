@@ -145,9 +145,9 @@ int main(int argc, char** argv) {
         pthread_join(pt2,NULL);
         
     } else if (option == 2) {
-
+        //extreme multithreading
     } else if (option == 3) {
-
+        //3 child processes
     }
 
     //printf("%d %d %d %d %d %d %d %d %d\n",c3[0],c3[1],c3[2],c3[3],c3[4],c3[5],c3[6],c3[7],c3[8]);
