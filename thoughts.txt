@@ -1,0 +1,82 @@
+in doWork2/5 we could write a universal for loop something like:
+pass in x index and y index through this struct:
+
+struct gridCoord {
+int x;
+int y;
+};
+
+void *doWork5(void *param) {
+  int c3 = {0,0,0,0,0,0,0,0,0};
+  x-index = ((struct gridCoord*)param)->x);
+  y-index = ((struct gridCoord*)param)->y);
+  for (int x = x-index; x < x-index + 3; x++ {
+    for (int y = y-index; y < y-index + 3; y++ {
+      c3[s[x][y]-1]++;
+    }
+  }
+  for (int i = 0; i < 9; i++) {
+    if (c3[i] != 1) {
+      solved = "NO";
+    }
+  }
+}
+then in the main function in "if (option==2){:
+
+struct gridCoord *sq1Pos = (struct gridCoord *)malloc(sizeof(struct gridCoord));
+struct gridCoord *sq2Pos = (struct gridCoord *)malloc(sizeof(struct gridCoord));
+struct gridCoord *sq3Pos = (struct gridCoord *)malloc(sizeof(struct gridCoord));
+struct gridCoord *sq4Pos = (struct gridCoord *)malloc(sizeof(struct gridCoord));
+struct gridCoord *sq5Pos = (struct gridCoord *)malloc(sizeof(struct gridCoord));
+struct gridCoord *sq6Pos = (struct gridCoord *)malloc(sizeof(struct gridCoord));
+struct gridCoord *sq7Pos = (struct gridCoord *)malloc(sizeof(struct gridCoord));
+struct gridCoord *sq8Pos = (struct gridCoord *)malloc(sizeof(struct gridCoord));
+struct gridCoord *sq9Pos = (struct gridCoord *)malloc(sizeof(struct gridCoord));
+sq1Pos->x = 0;
+sq1Pos->y = 0;
+sq2Pos->x = 0;
+sq2Pos->y = 3;
+sq3Pos->x = 0;
+sq3Pos->y = 6;
+sq4Pos->x = 3;
+sq4Pos->y = 0;
+sq5Pos->x = 3;
+sq5Pos->y = 3;
+sq6Pos->x = 3;
+sq6Pos->y = 6;
+sq7Pos->x = 6;
+sq7Pos->y = 0;
+sq8Pos->x = 6;
+sq8Pos->y = 3;
+sq9Pos->x = 6;
+sq9Pos->y = 6;
+pthread_t sq1;
+pthread_t sq2;
+pthread_t sq3;
+pthread_t sq4;
+pthread_t sq5;
+pthread_t sq6;
+pthread_t sq7;
+pthread_t sq8;
+pthread_t sq9;
+pthread_create(&sq1, NULL, doWork5, (void *)sq1Pos);
+pthread_create(&sq2, NULL, doWork5, (void *)sq2Pos);
+pthread_create(&sq3, NULL, doWork5, (void *)sq3Pos);
+pthread_create(&sq4, NULL, doWork5, (void *)sq4Pos);
+pthread_create(&sq5, NULL, doWork5, (void *)sq5Pos);
+pthread_create(&sq6, NULL, doWork5, (void *)sq6Pos);
+pthread_create(&sq7, NULL, doWork5, (void *)sq7Pos);
+pthread_create(&sq8, NULL, doWork5, (void *)sq8Pos);
+pthread_create(&sq9, NULL, doWork5, (void *)sq9Pos);
+pthread_join(sq1, NULL);
+pthread_join(sq2, NULL);
+pthread_join(sq3, NULL);
+pthread_join(sq4, NULL);
+pthread_join(sq5, NULL);
+pthread_join(sq6, NULL);
+pthread_join(sq7, NULL);
+pthread_join(sq8, NULL);
+pthread_join(sq9, NULL);
+
+
+
