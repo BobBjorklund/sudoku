@@ -9,14 +9,13 @@
 #include <wait.h>
 
 char* solved = "YES";
-
-
-int c[9] = {0,0,0,0,0,0,0,0,0};
-int c2[9] = {0,0,0,0,0,0,0,0,0};
-int c3[9] = {0,0,0,0,0,0,0,0,0}; 
 int s[9][9];
 
+
 void* doWork(void* param){
+    int c[9] = {0,0,0,0,0,0,0,0,0};
+    int c2[9] = {0,0,0,0,0,0,0,0,0};
+    int c3[9] = {0,0,0,0,0,0,0,0,0}; 
     for (int i = 0; i < 9; i++){
         for (int j = 0; j < 9; j++) {
             c[s[i][j]-1]++;
@@ -30,6 +29,9 @@ void* doWork(void* param){
 }
 
 void* doWork1(void* param){
+    int c[9] = {0,0,0,0,0,0,0,0,0};
+    int c2[9] = {0,0,0,0,0,0,0,0,0};
+    int c3[9] = {0,0,0,0,0,0,0,0,0}; 
     for (int i = 0; i < 9; i++){
         for (int j = 0; j < 9; j++) {
             c2[s[j][i]-1]++;
@@ -43,6 +45,9 @@ void* doWork1(void* param){
 }
 
 void* doWork2(void* param){
+    int c[9] = {0,0,0,0,0,0,0,0,0};
+    int c2[9] = {0,0,0,0,0,0,0,0,0};
+    int c3[9] = {0,0,0,0,0,0,0,0,0}; 
     for (int i = 0; i < 3; i ++) {
         for (int j = 0; j < 3; j++){
             c3[s[i][j]-1]++;
@@ -136,12 +141,13 @@ void* doWork2(void* param){
 }
 
 void* doWork3(void* param){
+    int c[9] = {0,0,0,0,0,0,0,0,0};
     int index = (*(int *)param);
     for (int j = 0; j < 9; j++) {
         c[s[index][j]-1]++;
     }
     for (int j = 0; j < 9; j++){
-        if (c[j] != index+1) {
+        if (c[j] != 1) {
             solved = "NO";
         }
     }
@@ -149,12 +155,13 @@ void* doWork3(void* param){
 }
 
 void* doWork4(void* param){
+    int c2[9] = {0,0,0,0,0,0,0,0,0};
     int index = (*(int *)param);
     for (int i = 0; i < 9; i++) {
         c2[s[i][index]-1]++;
     }
     for (int i = 0; i < 9; i++){
-        if (c2[i] != (index)+1) {
+        if (c2[i] != 1) {
             solved = "NO";
         }
     }
@@ -162,6 +169,7 @@ void* doWork4(void* param){
 } 
 
 void* doWork5(void* param){
+    int c3[9] = {0,0,0,0,0,0,0,0,0}; 
     int index = (*(int *)param) - 1;
     if ((index) == 0){
         for (int i = 0; i < 3; i ++) {
@@ -181,7 +189,7 @@ void* doWork5(void* param){
             }
         }
         for (int j = 0; j < 9; j++) {
-            if (c3[j] != 2) {
+            if (c3[j] != 1) {
                 solved = "NO";
             }
         }
@@ -192,7 +200,7 @@ void* doWork5(void* param){
             }
         }
         for (int j = 0; j < 9; j++) {
-            if (c3[j] != 3) {
+            if (c3[j] != 1) {
                 solved = "NO";
             }
         }
@@ -203,7 +211,7 @@ void* doWork5(void* param){
             }
         }
         for (int j = 0; j < 9; j++) {
-            if (c3[j] != 4) {
+            if (c3[j] != 1) {
                 solved = "NO";
             }
         }
@@ -214,7 +222,7 @@ void* doWork5(void* param){
             }
         }
         for (int j = 0; j < 9; j++) {
-            if (c3[j] != 5) {
+            if (c3[j] != 1) {
                 solved = "NO";
             }
         }
@@ -225,7 +233,7 @@ void* doWork5(void* param){
             }
         }
         for (int j = 0; j < 9; j++) {
-            if (c3[j] != 6) {
+            if (c3[j] != 1) {
                 solved = "NO";
             }
         }
@@ -236,7 +244,7 @@ void* doWork5(void* param){
             }
         }
         for (int j = 0; j < 9; j++) {
-            if (c3[j] != 7) {
+            if (c3[j] != 1) {
                 solved = "NO";
             }
         }
@@ -247,7 +255,7 @@ void* doWork5(void* param){
             }
         }
         for (int j = 0; j < 9; j++) {
-            if (c3[j] != 8) {
+            if (c3[j] != 1) {
                 solved = "NO";
             }
         }
@@ -258,7 +266,7 @@ void* doWork5(void* param){
             }
         }
         for (int j = 0; j < 9; j++) {
-            if (c3[j] != 9) {
+            if (c3[j] != 1) {
                 solved = "NO";
             }
         }
@@ -271,6 +279,9 @@ void doOption3(time_t start){
     char* name = "solution?";
     char* ptr = "";
     int shm_fd;
+    int c[9] = {0,0,0,0,0,0,0,0,0};
+    int c2[9] = {0,0,0,0,0,0,0,0,0};
+    int c3[9] = {0,0,0,0,0,0,0,0,0}; 
     pid_t pid = fork();
     if(pid == 0){
         shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
@@ -423,7 +434,6 @@ int main(int argc, char **argv){
     FILE *fp = fopen("input.txt","r");
     time_t st = time(NULL);
     int option = atoi(argv[1]);
-    
     for (int i = 0; i < 9; i++) {
         fscanf(fp,"%d %d %d %d %d %d %d %d %d",&s[i][0],&s[i][1],&s[i][2],&s[i][3],&s[i][4],&s[i][5],&s[i][6],&s[i][7],&s[i][8]);
         printf("%d %d %d %d %d %d %d %d %d\n",s[i][0],s[i][1],s[i][2],s[i][3],s[i][4],s[i][5],s[i][6],s[i][7],s[i][8]);
@@ -461,23 +471,23 @@ int main(int argc, char **argv){
         doOption3(st);
     }
 
-    printf("\nHere is the row array:");
-    for(int i  = 0; i < 9; i++){
-        printf(" %d ", c[i]);
-    }
-    printf("\n");
+    // printf("\nHere is the row array:");
+    // for(int i  = 0; i < 9; i++){
+    //     printf(" %d ", c[i]);
+    // }
+    // printf("\n");
 
-    printf("Here is the col array:");
-    for(int i  = 0; i < 9; i++){
-        printf(" %d ", c2[i]);
-    }
-    printf("\n");
+    // printf("Here is the col array:");
+    // for(int i  = 0; i < 9; i++){
+    //     printf(" %d ", c2[i]);
+    // }
+    // printf("\n");
 
-    printf("Here is the square array:");
-    for(int i  = 0; i < 9; i++){
-        printf(" %d ", c3[i]);
-    }
-    printf("\n");
+    // printf("Here is the square array:");
+    // for(int i  = 0; i < 9; i++){
+    //     printf(" %d ", c3[i]);
+    // }
+    // printf("\n");
     
     fclose(fp);
     return 0;
