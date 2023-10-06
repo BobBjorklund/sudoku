@@ -8,9 +8,6 @@
 #include <string.h>
 #include <wait.h>
 
-#define readEnd 0
-#define writeEnd 1
-
 char* solved = "YES";
 
 
