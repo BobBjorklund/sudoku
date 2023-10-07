@@ -12,16 +12,16 @@ char* solved = "YES";
 int s[9][9];
 
 typedef struct {
-    int i;
+    //int i;
     int x;
     int y;
 } gridCoord;
 
 
 void* doWork(void* param){
-    int c[9] = {0,0,0,0,0,0,0,0,0};
-    int c2[9] = {0,0,0,0,0,0,0,0,0};
-    int c3[9] = {0,0,0,0,0,0,0,0,0}; 
+    int c[9] = {0};
+    int c2[9] = {0};
+    int c3[9] = {0}; 
     for (int i = 0; i < 9; i++){
         for (int j = 0; j < 9; j++) {
             c[s[i][j]-1]++;
@@ -35,9 +35,9 @@ void* doWork(void* param){
 }
 
 void* doWork1(void* param){
-    int c[9] = {0,0,0,0,0,0,0,0,0};
-    int c2[9] = {0,0,0,0,0,0,0,0,0};
-    int c3[9] = {0,0,0,0,0,0,0,0,0}; 
+    int c[9] = {0};
+    int c2[9] = {0};
+    int c3[9] = {0}; 
     for (int i = 0; i < 9; i++){
         for (int j = 0; j < 9; j++) {
             c2[s[j][i]-1]++;
@@ -175,8 +175,21 @@ void* doWork4(void* param){
 } 
 
 void* doWork5(void* param){
-    int c3[9] = {0,0,0,0,0,0,0,0,0}; 
-    int index = (*(int *)param) - 1;
+    int c[9] = {0}; 
+    gridCoord* currPos = (gridCoord*) param;
+    int x = currPos->x;
+    int y = currPos->y;
+    for(x; x < x+3; x++){
+        for(y; y < y+3; y++){
+            c[s[x][y]-1]++;
+        }
+    }
+
+    for (int i = 0; i < 9; i++) {
+        if (c[i] != 1) {
+        solved = "NO";
+        }
+    }
     pthread_exit(0);
 }
 
@@ -361,11 +374,24 @@ int main(int argc, char **argv){
 
     if(option == 2){
         pthread_t threads[27];
-        gridCoord sqPos [9];
+        gridCoord* sqPos = malloc(9 * sizeof(gridCoord));
+        int index = 0;
+        for(int i = 0; i < 9; i++){
+            sqPos[i].x = (int)malloc(sizeof(int));
+            sqPos[i].y = (int)malloc(sizeof(int));
+        }
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j <= 6; j+=3){
+                sqPos[index].x = i * 3;
+                sqPos[index].y = j;
+                index++;
+            }
+        }
+
         for(int i = 0; i < 9; i++) {
             pthread_create(&threads[i], NULL, doWork3, &i);
             pthread_create(&threads[i+9], NULL, doWork4, &i);
-            pthread_create(&threads[i+18], NULL, doWork5, &i);
+            pthread_create(&threads[i+18], NULL, doWork5, &sqPos[i]);
         }
         for(int i = 0; i < 27; i++) {
             pthread_join(threads[i], NULL);
