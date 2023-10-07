@@ -19,8 +19,6 @@ typedef struct {
 
 void* doWork(void* param){
     int c[9] = {0};
-    int c2[9] = {0};
-    int c3[9] = {0}; 
     for (int i = 0; i < 9; i++){
         for (int j = 0; j < 9; j++) {
             c[s[i][j]-1]++;
@@ -34,9 +32,7 @@ void* doWork(void* param){
 }
 
 void* doWork1(void* param){
-    int c[9] = {0};
-    int c2[9] = {0};
-    int c3[9] = {0}; 
+    int c2[9] = {0}; 
     for (int i = 0; i < 9; i++){
         for (int j = 0; j < 9; j++) {
             c2[s[j][i]-1]++;
@@ -50,103 +46,27 @@ void* doWork1(void* param){
 }
 
 void* doWork2(void* param){
-    int c[9] = {0,0,0,0,0,0,0,0,0};
-    int c2[9] = {0,0,0,0,0,0,0,0,0};
-    int c3[9] = {0,0,0,0,0,0,0,0,0}; 
-    for (int i = 0; i < 3; i ++) {
-        for (int j = 0; j < 3; j++){
-            c3[s[i][j]-1]++;
+    int c3[9] = {0}; 
+    gridCoord** sq = (gridCoord**) param;
+    for(int i = 0; i < 9; i++){
+        int startX = sq[i]->x;
+        int startY = sq[i]->y;;
+        for(int x = startX; x < startX+3; x++){
+            for(int y = startY; y < startY+3; y++){
+                c3[s[x][y]-1]++;
+            }
         }
-    }
-    for (int j = 0; j < 9; j++) {
-        if (c3[j] != 1) {
+
+        for (int i = 0; i < 9; i++) {
+            if (c3[i] != 1) {
             solved = "NO";
-        }
-    }
-    for (int i = 0; i < 3; i ++) {
-        for (int j = 3; j < 6; j++){
-            c3[s[i][j]-1]++;
-        }
-    }
-    for (int j = 0; j < 9; j++) {
-        if (c3[j] != 2) {
-            solved = "NO";
-        }
-    }
-    for (int i = 0; i < 3; i ++) {
-        for (int j = 6; j < 9; j++){
-            c3[s[i][j]-1]++;
-        }
-    }
-    for (int j = 0; j < 9; j++) {
-        if (c3[j] != 3) {
-            solved = "NO";
-        }
-    }
-    for (int i = 3; i < 6; i ++) {
-        for (int j = 0; j < 3; j++){
-            c3[s[i][j]-1]++;
-        }
-    }
-    for (int j = 0; j < 9; j++) {
-        if (c3[j] != 4) {
-            solved = "NO";
-        }
-    }
-    for (int i = 3; i < 6; i ++) {
-        for (int j = 3; j < 6; j++){
-            c3[s[i][j]-1]++;
-        }
-    }
-    for (int j = 0; j < 9; j++) {
-        if (c3[j] != 5) {
-            solved = "NO";
-        }
-    }
-    for (int i = 3; i < 6; i ++) {
-        for (int j = 6; j < 9; j++){
-            c3[s[i][j]-1]++;
-        }
-    }
-    for (int j = 0; j < 9; j++) {
-        if (c3[j] != 6) {
-            solved = "NO";
-        }
-    }
-    for (int i = 6; i < 9; i ++) {
-        for (int j = 0; j < 3; j++){
-            c3[s[i][j]-1]++;
-        }
-    }
-    for (int j = 0; j < 9; j++) {
-        if (c3[j] != 7) {
-            solved = "NO";
-        }
-    }
-    for (int i = 6; i < 9; i ++) {
-        for (int j = 3; j < 6; j++){
-            c3[s[i][j]-1]++;
-        }
-    }
-    for (int j = 0; j < 9; j++) {
-        if (c3[j] != 8) {
-            solved = "NO";
-        }
-    }
-    for (int i = 6; i < 9; i ++) {
-        for (int j = 6; j < 9; j++){
-            c3[s[i][j]-1]++;
-        }
-    }
-    for (int j = 0; j < 9; j++) {
-        if (c3[j] != 9) {
-            solved = "NO";
+            }
         }
     }
 }
 
 void* doWork3(void* param){
-    int c[9] = {0,0,0,0,0,0,0,0,0};
+    int c[9] = {0};
     int index = (*(int *)param);
     for (int j = 0; j < 9; j++) {
         c[s[index][j]-1]++;
@@ -160,13 +80,13 @@ void* doWork3(void* param){
 }
 
 void* doWork4(void* param){
-    int c2[9] = {0,0,0,0,0,0,0,0,0};
+    int c[9] = {0};
     int index = (*(int *)param);
     for (int i = 0; i < 9; i++) {
-        c2[s[i][index]-1]++;
+        c[s[i][index]-1]++;
     }
     for (int i = 0; i < 9; i++){
-        if (c2[i] != 1) {
+        if (c[i] != 1) {
             solved = "NO";
         }
     }
@@ -208,11 +128,9 @@ void doOption3(time_t start){
         for (int i = 0; i < 9; i++){
             for (int j = 0; j < 9; j++) {
                 c[s[i][j]-1]++;
-                // c2[s[j][i]-1]++;
             }
             for (int j = 0; j < 9; j++){
                 if (c[j] != i+1) {
-                    // || c2[j] != i+1
                     sprintf(ptr, "%s", "NO");
                 }
             }
@@ -240,96 +158,33 @@ void doOption3(time_t start){
                 shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
                 ftruncate(shm_fd, SIZE);
                 ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
-                for (int i = 0; i < 3; i ++) {
-                    for (int j = 0; j < 3; j++){
-                        c3[s[i][j]-1]++;
+                gridCoord* sqPos = malloc(9 * sizeof(gridCoord));
+                int index = 0;
+
+                for(int i = 0; i < 3; i++){
+                    for(int j = 0; j <= 6; j+=3){
+                        sqPos[index].x = i * 3;
+                        sqPos[index].y = j;
+                        index++;
                     }
                 }
-                for (int j = 0; j < 9; j++) {
-                    if (c3[j] != 1) {
-                        sprintf(ptr, "%s", "NO");
+
+                for(int i = 0; i < 9; i++){
+                    int startX = sqPos[i].x;
+                    int startY = sqPos[i].y;
+                    for(int x = startX; x < startX+3; x++){
+                        for(int y = startY; y < startY+3; y++){
+                            c3[s[x][y]-1]++;
+                        }
+                    }
+
+                    for (int i = 0; i < 9; i++) {
+                        if (c3[i] != 1) {
+                        solved = "NO";
+                        }
                     }
                 }
-                for (int i = 0; i < 3; i ++) {
-                    for (int j = 3; j < 6; j++){
-                        c3[s[i][j]-1]++;
-                    }
-                }
-                for (int j = 0; j < 9; j++) {
-                    if (c3[j] != 2) {
-                        sprintf(ptr, "%s", "NO");
-                    }
-                }
-                for (int i = 0; i < 3; i ++) {
-                    for (int j = 6; j < 9; j++){
-                        c3[s[i][j]-1]++;
-                    }
-                }
-                for (int j = 0; j < 9; j++) {
-                    if (c3[j] != 3) {
-                        sprintf(ptr, "%s", "NO");
-                    }
-                }
-                for (int i = 3; i < 6; i ++) {
-                    for (int j = 0; j < 3; j++){
-                        c3[s[i][j]-1]++;
-                    }
-                }
-                for (int j = 0; j < 9; j++) {
-                    if (c3[j] != 4) {
-                        sprintf(ptr, "%s", "NO");
-                    }
-                }
-                for (int i = 3; i < 6; i ++) {
-                    for (int j = 3; j < 6; j++){
-                        c3[s[i][j]-1]++;
-                    }
-                }
-                for (int j = 0; j < 9; j++) {
-                    if (c3[j] != 5) {
-                        sprintf(ptr, "%s", "NO");
-                    }
-                }
-                for (int i = 3; i < 6; i ++) {
-                    for (int j = 6; j < 9; j++){
-                        c3[s[i][j]-1]++;
-                    }
-                }
-                for (int j = 0; j < 9; j++) {
-                    if (c3[j] != 6) {
-                        sprintf(ptr, "%s", "NO");
-                    }
-                }
-                for (int i = 6; i < 9; i ++) {
-                    for (int j = 0; j < 3; j++){
-                        c3[s[i][j]-1]++;
-                    }
-                }
-                for (int j = 0; j < 9; j++) {
-                    if (c3[j] != 7) {
-                        sprintf(ptr, "%s", "NO");
-                    }
-                }
-                for (int i = 6; i < 9; i ++) {
-                    for (int j = 3; j < 6; j++){
-                        c3[s[i][j]-1]++;
-                    }
-                }
-                for (int j = 0; j < 9; j++) {
-                    if (c3[j] != 8) {
-                        sprintf(ptr, "%s", "NO");
-                    }
-                }
-                for (int i = 6; i < 9; i ++) {
-                    for (int j = 6; j < 9; j++){
-                        c3[s[i][j]-1]++;
-                    }
-                }
-                for (int j = 0; j < 9; j++) {
-                    if (c3[j] != 9) {
-                        sprintf(ptr, "%s", "NO");
-                    }
-                }
+                
             } else if(pid > 0){
                 wait(NULL);
                 wait(NULL);
@@ -359,9 +214,18 @@ int main(int argc, char **argv){
 
     if(option == 1){
         pthread_t threads[3];
+        gridCoord* sqPos = malloc(9 * sizeof(gridCoord));
+        int index = 0;
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j <= 6; j+=3){
+                sqPos[index].x = i * 3;
+                sqPos[index].y = j;
+                index++;
+            }
+        }
         pthread_create(&threads[0], NULL, doWork, NULL);
         pthread_create(&threads[1], NULL, doWork1, NULL);
-        pthread_create(&threads[2], NULL, doWork2, NULL);
+        pthread_create(&threads[2], NULL, doWork2, &sqPos);
 
         pthread_join(threads[0], NULL);
         pthread_join(threads[1], NULL);
