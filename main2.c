@@ -181,14 +181,10 @@ void doOption3(){
 
             for (int j = 0; j < 9; j++) {
                 if (c[j] != i+1) {
-                    solved = "NO";
+                    sprintf(ptr, "%s", "NO");
                 }
             }
         }
-        for(int i = 0; i < 9; i++){
-            printf("%d ", c[i]);
-        }
-        printf("\n");
         exit(0);
     } 
     
@@ -268,7 +264,7 @@ int main(int argc, char **argv){
     }
 
     if(option == 3){
-        for(int att = 0; att < 1; att++){
+        for(int att = 0; att < 50; att++){
             doOption3();
         }
         
