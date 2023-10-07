@@ -12,7 +12,6 @@ char* solved = "YES";
 int s[9][9];
 
 typedef struct {
-    //int i;
     int x;
     int y;
 } gridCoord;
@@ -177,10 +176,10 @@ void* doWork4(void* param){
 void* doWork5(void* param){
     int c[9] = {0}; 
     gridCoord* currPos = (gridCoord*) param;
-    int x = currPos->x;
-    int y = currPos->y;
-    for(x; x < x+3; x++){
-        for(y; y < y+3; y++){
+    int startX = currPos->x;
+    int startY = currPos->y;
+    for(int x = startX; x < startX+3; x++){
+        for(int y = startY; y < startY+3; y++){
             c[s[x][y]-1]++;
         }
     }
@@ -376,10 +375,6 @@ int main(int argc, char **argv){
         pthread_t threads[27];
         gridCoord* sqPos = malloc(9 * sizeof(gridCoord));
         int index = 0;
-        for(int i = 0; i < 9; i++){
-            sqPos[i].x = (int)malloc(sizeof(int));
-            sqPos[i].y = (int)malloc(sizeof(int));
-        }
         for(int i = 0; i < 3; i++){
             for(int j = 0; j <= 6; j+=3){
                 sqPos[index].x = i * 3;
@@ -398,6 +393,7 @@ int main(int argc, char **argv){
         }
         time_t ft = time(NULL) - st;
         printf("SOLUTION: %s (%ld seconds)",solved, ft);
+        free(sqPos);
     }
 
     if(option == 3){
