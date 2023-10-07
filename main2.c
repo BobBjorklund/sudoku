@@ -205,7 +205,7 @@ void doOption3(){
 int main(int argc, char **argv){
     FILE *fp = fopen("input.txt","r");
     time_t st = clock();
-    time_t msPerS = CLOCKS_PER_SEC/10000;
+    time_t msPerS = CLOCKS_PER_SEC/100000;
     int option = atoi(argv[1]);
     for (int i = 0; i < 9; i++) {
         fscanf(fp,"%d %d %d %d %d %d %d %d %d",&s[i][0],&s[i][1],&s[i][2],&s[i][3],&s[i][4],&s[i][5],&s[i][6],&s[i][7],&s[i][8]);
@@ -233,7 +233,7 @@ int main(int argc, char **argv){
             pthread_join(threads[2], NULL);
         }    
         time_t ft = clock() - st;
-        printf("SOLUTION: %s (%ld ms)\n",solved, ft/msPerS);
+        printf("SOLUTION: %s (%ld ns)\n",solved, ft/msPerS);
     }
 
     if(option == 2){
@@ -264,7 +264,7 @@ int main(int argc, char **argv){
             //     printf("Here is the index:%d, (%ld ms)\n", att, (clock() - st));
             // }
         time_t ft = clock() - st;
-        printf("SOLUTION: %s (%ld ms)\n",solved, ft/msPerS);
+        printf("SOLUTION: %s (%ld ns)\n",solved, ft/msPerS);
     }
 
     if(option == 3){
@@ -273,7 +273,7 @@ int main(int argc, char **argv){
         }
         
         time_t ft = clock() - st;
-        printf("SOLUTION: %s (%ld ms)\n",solved, ft/msPerS);
+        printf("SOLUTION: %s (%ld ns)\n",solved, ft/msPerS);
     }
     
     fclose(fp);
