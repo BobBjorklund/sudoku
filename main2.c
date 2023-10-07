@@ -47,10 +47,10 @@ void* doWork1(void* param){
 
 void* doWork2(void* param){
     int c3[9] = {0}; 
-    gridCoord** sq = (gridCoord**) param;
+    gridCoord* sq = (gridCoord*) param;
     for(int i = 0; i < 9; i++){
-        int startX = sq[i]->x;
-        int startY = sq[i]->y;;
+        int startX = sq[i].x;
+        int startY = sq[i].y;
         for(int x = startX; x < startX+3; x++){
             for(int y = startY; y < startY+3; y++){
                 c3[s[x][y]-1]++;
