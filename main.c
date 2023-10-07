@@ -28,8 +28,8 @@ int main(int argc, char** argv) {
     if (option == 1) {
         for (int i = 0; i < 9; i++){
             for (int j = 0; j < 9; j++) {
-                c[s[i][j]-1]++;//= c[s[i][j]-1]+1;
-                c2[s[j][i]-1]++;//= c2[s[j][i]-1]+1;
+                c[s[i][j]-1]++;
+                c2[s[j][i]-1]++;
             }
             for (int j = 0; j < 9; j++){
                 if (c[j] != i+1 || c2[j] != i+1) {

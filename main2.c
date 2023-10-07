@@ -11,6 +11,12 @@
 char* solved = "YES";
 int s[9][9];
 
+typedef struct {
+    int i;
+    int x;
+    int y;
+} gridCoord;
+
 
 void* doWork(void* param){
     int c[9] = {0,0,0,0,0,0,0,0,0};
@@ -171,106 +177,6 @@ void* doWork4(void* param){
 void* doWork5(void* param){
     int c3[9] = {0,0,0,0,0,0,0,0,0}; 
     int index = (*(int *)param) - 1;
-    if ((index) == 0){
-        for (int i = 0; i < 3; i ++) {
-            for (int j = 0; j < 3; j++){
-                c3[s[i][j]-1]++;
-            }
-        }
-        for (int j = 0; j < 9; j++) {
-            if (c3[j] != 1) {
-                solved = "NO";
-            }
-        }
-    } else if ((index) == 1){
-        for (int i = 0; i < 3; i ++) {
-            for (int j = 3; j < 6; j++){
-                c3[s[i][j]-1]++;
-            }
-        }
-        for (int j = 0; j < 9; j++) {
-            if (c3[j] != 1) {
-                solved = "NO";
-            }
-        }
-    } else if ((index) == 2){
-        for (int i = 0; i < 3; i ++) {
-            for (int j = 6; j < 9; j++){
-                c3[s[i][j]-1]++;
-            }
-        }
-        for (int j = 0; j < 9; j++) {
-            if (c3[j] != 1) {
-                solved = "NO";
-            }
-        }
-    } else if ((index) == 3){
-        for (int i = 3; i < 6; i ++) {
-            for (int j = 0; j < 3; j++){
-                c3[s[i][j]-1]++;
-            }
-        }
-        for (int j = 0; j < 9; j++) {
-            if (c3[j] != 1) {
-                solved = "NO";
-            }
-        }
-    } else if ((index) == 4){
-        for (int i = 3; i < 6; i ++) {
-            for (int j = 3; j < 6; j++){
-                c3[s[i][j]-1]++;
-            }
-        }
-        for (int j = 0; j < 9; j++) {
-            if (c3[j] != 1) {
-                solved = "NO";
-            }
-        }
-    } else if ((index) == 5){
-        for (int i = 3; i < 6; i ++) {
-            for (int j = 6; j < 9; j++){
-                c3[s[i][j]-1]++;
-            }
-        }
-        for (int j = 0; j < 9; j++) {
-            if (c3[j] != 1) {
-                solved = "NO";
-            }
-        }
-    } else if ((index) == 6){
-        for (int i = 6; i < 9; i ++) {
-            for (int j = 0; j < 3; j++){
-                c3[s[i][j]-1]++;
-            }
-        }
-        for (int j = 0; j < 9; j++) {
-            if (c3[j] != 1) {
-                solved = "NO";
-            }
-        }
-    } else if ((index) == 7){
-        for (int i = 6; i < 9; i ++) {
-            for (int j = 3; j < 6; j++){
-                c3[s[i][j]-1]++;
-            }
-        }
-        for (int j = 0; j < 9; j++) {
-            if (c3[j] != 1) {
-                solved = "NO";
-            }
-        }
-    } else if ((index) == 8){
-        for (int i = 6; i < 9; i ++) {
-            for (int j = 6; j < 9; j++){
-                c3[s[i][j]-1]++;
-            }
-        }
-        for (int j = 0; j < 9; j++) {
-            if (c3[j] != 1) {
-                solved = "NO";
-            }
-        }
-    }
     pthread_exit(0);
 }
 
@@ -455,6 +361,7 @@ int main(int argc, char **argv){
 
     if(option == 2){
         pthread_t threads[27];
+        gridCoord sqPos [9];
         for(int i = 0; i < 9; i++) {
             pthread_create(&threads[i], NULL, doWork3, &i);
             pthread_create(&threads[i+9], NULL, doWork4, &i);
