@@ -258,7 +258,7 @@ int main(int argc, char **argv){
             }
         }
         
-        sleep(5);
+        //sleep(5);
         time_t ft = time(NULL) - st;
         printf("SOLUTION: %s (%ld seconds)\n",solved, ft);
     }
@@ -271,24 +271,6 @@ int main(int argc, char **argv){
         time_t ft = time(NULL) - st;
         printf("SOLUTION: %s (%ld seconds)\n",solved, ft);
     }
-
-    // printf("\nHere is the row array:");
-    // for(int i  = 0; i < 9; i++){
-    //     printf(" %d ", c[i]);
-    // }
-    // printf("\n");
-
-    // printf("Here is the col array:");
-    // for(int i  = 0; i < 9; i++){
-    //     printf(" %d ", c2[i]);
-    // }
-    // printf("\n");
-
-    // printf("Here is the square array:");
-    // for(int i  = 0; i < 9; i++){
-    //     printf(" %d ", c3[i]);
-    // }
-    // printf("\n");
     
     fclose(fp);
     return 0;
