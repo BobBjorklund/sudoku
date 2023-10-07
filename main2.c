@@ -121,11 +121,8 @@ void doOption3(){
     char* ptr = "";
     int shm_fd;
     int c[9] = {0};
-    int c2[9] = {0};
-    int c3[9] = {0}; 
     pid_t pid1 = fork();
-    pid_t pid2 = fork();
-    if(pid1 == 0 && pid2 > 0){
+    if(pid1 == 0){
         shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
         ftruncate(shm_fd, SIZE);
         ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
@@ -139,42 +136,32 @@ void doOption3(){
                 }
             }
         }
-    } else if(pid1 > 0 && pid2 == 0){
+        exit(0);
+    }
+    pid_t pid2 = fork();
+    if(pid2 == 0){
         shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
         ftruncate(shm_fd, SIZE);
         ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
         for (int i = 0; i < 9; i++){
             for (int j = 0; j < 9; j++) {
-                c2[s[j][i]-1]++;
+                c[s[j][i]-1]++;
             }
             for (int j = 0; j < 9; j++){
-                if (c2[j] != i+1) {
+                if (c[j] != i+1) {
                     sprintf(ptr, "%s", "NO");
                 }
             }
         }
-    } else if(pid1 > 0 && pid2 > 0){
-        int status;
-        pid_t pid;
-        int n = 3;
-        while (n > 0) {
-        pid = wait(&status);
-        --n;
-        }
-        shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
-        ftruncate(shm_fd, SIZE);
-        ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
-        if(strlen(ptr) != 0){
-            solved = ptr;
-        }
-        shm_unlink(name);
-    } else {
+        exit(0);
+    }
+    pid_t pid3 = fork();
+    if(pid3 == 0){
         shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
         ftruncate(shm_fd, SIZE);
         ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
         gridCoord* sqPos = malloc(9 * sizeof(gridCoord));
         int index = 0;
-
         for(int i = 0; i < 3; i++){
             for(int j = 0; j <= 6; j+=3){
                 sqPos[index].x = i * 3;
@@ -188,21 +175,35 @@ void doOption3(){
             int startY = sqPos[i].y;
             for(int x = startX; x < startX+3; x++){
                 for(int y = startY; y < startY+3; y++){
-                    c3[s[x][y]-1]++;
+                    c[s[x][y]-1]++;
                 }
             }
 
             for (int j = 0; j < 9; j++) {
-                if (c3[j] != i+1) {
+                if (c[j] != i+1) {
                     solved = "NO";
                 }
             }
         }
         for(int i = 0; i < 9; i++){
-            printf(" %d", c3[i]);
+            printf("%d ", c[i]);
         }
         printf("\n");
-    }
+        exit(0);
+    } 
+    
+    if(pid1 > 0 && pid2 > 0 && pid3 > 0){
+        waitpid(pid1, NULL, 0);
+        waitpid(pid2, NULL, 0);
+        waitpid(pid3, NULL, 0);
+        shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
+        ftruncate(shm_fd, SIZE);
+        ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
+        if(strlen(ptr) != 0){
+            solved = ptr;
+        }
+        shm_unlink(name);
+    } 
 }
 
 int main(int argc, char **argv){
@@ -272,7 +273,7 @@ int main(int argc, char **argv){
         }
         
         time_t ft = time(NULL) - st;
-        printf("SOLUTION: %s (%ld seconds)",solved, ft);
+        printf("SOLUTION: %s (%ld seconds)\n",solved, ft);
     }
 
     // printf("\nHere is the row array:");
