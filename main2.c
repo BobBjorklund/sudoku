@@ -205,7 +205,7 @@ void doOption3(){
 int main(int argc, char **argv){
     FILE *fp = fopen("input.txt","r");
     time_t st = clock();
-    time_t msPerS = CLOCKS_PER_SEC/1000;
+    time_t msPerS = CLOCKS_PER_SEC/10000;
     int option = atoi(argv[1]);
     for (int i = 0; i < 9; i++) {
         fscanf(fp,"%d %d %d %d %d %d %d %d %d",&s[i][0],&s[i][1],&s[i][2],&s[i][3],&s[i][4],&s[i][5],&s[i][6],&s[i][7],&s[i][8]);
@@ -213,7 +213,7 @@ int main(int argc, char **argv){
     }
 
     if(option == 1){
-        for(int att = 0; att < 500000; att++){
+        for(int att = 0; att < 10; att++){
             pthread_t threads[3];
             gridCoord* sqPos = malloc(9 * sizeof(gridCoord));
             int index = 0;
@@ -237,7 +237,7 @@ int main(int argc, char **argv){
     }
 
     if(option == 2){
-        for(int att = 0; att < 50000; att++){
+        for(int att = 0; att < 10; att++){
             pthread_t threads[27];
             gridCoord* sqPos = malloc(9 * sizeof(gridCoord));
             int index = 0;
@@ -260,17 +260,16 @@ int main(int argc, char **argv){
             }
         }
         
-        
+        // if(att % 1000 == 0){
+            //     printf("Here is the index:%d, (%ld ms)\n", att, (clock() - st));
+            // }
         time_t ft = clock() - st;
         printf("SOLUTION: %s (%ld ms)\n",solved, ft/msPerS);
     }
 
     if(option == 3){
-        for(int att = 0; att < 5000; att++){
+        for(int att = 0; att < 10; att++){
             doOption3();
-            // if(att % 1000 == 0){
-            //     printf("Here is the index:%d, (%ld ms)\n", att, (clock() - st));
-            // }
         }
         
         time_t ft = clock() - st;
