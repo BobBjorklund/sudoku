@@ -29,50 +29,53 @@ void* doWork(void* param){
             }
         }
     }
+    pthread_exit(0);
 }
 
 void* doWork1(void* param){
-    int c2[9] = {0}; 
+    int c[9] = {0}; 
     for (int i = 0; i < 9; i++){
         for (int j = 0; j < 9; j++) {
-            c2[s[j][i]-1]++;
+            c[s[j][i]-1]++;
         }
         for (int j = 0; j < 9; j++){
-            if (c2[j] != i+1) {
+            if (c[j] != i+1) {
                 solved = "NO";
             }
         }
     }
+    pthread_exit(0);
 }
 
 void* doWork2(void* param){
-    int c3[9] = {0}; 
+    int c[9] = {0}; 
     gridCoord* sq = (gridCoord*) param;
     for(int i = 0; i < 9; i++){
         int startX = sq[i].x;
         int startY = sq[i].y;
         for(int x = startX; x < startX+3; x++){
             for(int y = startY; y < startY+3; y++){
-                c3[s[x][y]-1]++;
+                c[s[x][y]-1]++;
             }
         }
 
-        for (int i = 0; i < 9; i++) {
-            if (c3[i] != 1) {
-            solved = "NO";
+        for (int j = 0; j < 9; j++) {
+            if (c[j] != i+1) {
+                solved = "NO";
             }
         }
     }
+    pthread_exit(0);
 }
 
 void* doWork3(void* param){
     int c[9] = {0};
-    int index = (*(int *)param);
-    for (int j = 0; j < 9; j++) {
-        c[s[index][j]-1]++;
+    int row = (*(int *)param);
+    for (int i = 0; i < 9; i++) {
+        c[s[row][i]-1]++;
     }
-    for (int j = 0; j < 9; j++){
-        if (c[j] != 1) {
+    for (int i = 0; i < 9; i++){
+        if (c[i] != 1) {
             solved = "NO";
         }
     }
@@ -81,9 +84,9 @@ void* doWork3(void* param){
 
 void* doWork4(void* param){
     int c[9] = {0};
-    int index = (*(int *)param);
+    int col = (*(int *)param);
     for (int i = 0; i < 9; i++) {
-        c[s[i][index]-1]++;
+        c[s[i][col]-1]++;
     }
     for (int i = 0; i < 9; i++){
         if (c[i] != 1) {
@@ -112,16 +115,17 @@ void* doWork5(void* param){
     pthread_exit(0);
 }
 
-void doOption3(time_t start){
+void doOption3(){
     int SIZE = 4096;
     char* name = "solution?";
     char* ptr = "";
     int shm_fd;
-    int c[9] = {0,0,0,0,0,0,0,0,0};
-    int c2[9] = {0,0,0,0,0,0,0,0,0};
-    int c3[9] = {0,0,0,0,0,0,0,0,0}; 
-    pid_t pid = fork();
-    if(pid == 0){
+    int c[9] = {0};
+    int c2[9] = {0};
+    int c3[9] = {0}; 
+    pid_t pid1 = fork();
+    pid_t pid2 = fork();
+    if(pid1 == 0 && pid2 > 0){
         shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
         ftruncate(shm_fd, SIZE);
         ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
@@ -135,71 +139,69 @@ void doOption3(time_t start){
                 }
             }
         }
-    } else if(pid > 0){
-        pid = fork();
-        if(pid == 0){
-            shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
-            ftruncate(shm_fd, SIZE);
-            ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
-            for (int i = 0; i < 9; i++){
-                for (int j = 0; j < 9; j++) {
-                    c2[s[j][i]-1]++;
-                }
-                for (int j = 0; j < 9; j++){
-                    if (c2[j] != i+1) {
-                        sprintf(ptr, "%s", "NO");
-                    }
-                }
+    } else if(pid1 > 0 && pid2 == 0){
+        shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
+        ftruncate(shm_fd, SIZE);
+        ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
+        for (int i = 0; i < 9; i++){
+            for (int j = 0; j < 9; j++) {
+                c2[s[j][i]-1]++;
             }
-
-        } else if(pid > 0){
-            pid = fork();
-            if(pid == 0){
-                shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
-                ftruncate(shm_fd, SIZE);
-                ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
-                gridCoord* sqPos = malloc(9 * sizeof(gridCoord));
-                int index = 0;
-
-                for(int i = 0; i < 3; i++){
-                    for(int j = 0; j <= 6; j+=3){
-                        sqPos[index].x = i * 3;
-                        sqPos[index].y = j;
-                        index++;
-                    }
+            for (int j = 0; j < 9; j++){
+                if (c2[j] != i+1) {
+                    sprintf(ptr, "%s", "NO");
                 }
-
-                for(int i = 0; i < 9; i++){
-                    int startX = sqPos[i].x;
-                    int startY = sqPos[i].y;
-                    for(int x = startX; x < startX+3; x++){
-                        for(int y = startY; y < startY+3; y++){
-                            c3[s[x][y]-1]++;
-                        }
-                    }
-
-                    for (int i = 0; i < 9; i++) {
-                        if (c3[i] != 1) {
-                        solved = "NO";
-                        }
-                    }
-                }
-                
-            } else if(pid > 0){
-                wait(NULL);
-                wait(NULL);
-                wait(NULL);
-                shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
-                ftruncate(shm_fd, SIZE);
-                ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
-                if(strlen(ptr) != 0){
-                    solved = ptr;
-                }
-                time_t ft = time(NULL) - start;
-                printf("SOLUTION: %s (%ld seconds)",solved, ft);
-                shm_unlink(name);
             }
         }
+    } else if(pid1 > 0 && pid2 > 0){
+        int status;
+        pid_t pid;
+        int n = 3;
+        while (n > 0) {
+        pid = wait(&status);
+        --n;
+        }
+        shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
+        ftruncate(shm_fd, SIZE);
+        ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
+        if(strlen(ptr) != 0){
+            solved = ptr;
+        }
+        shm_unlink(name);
+    } else {
+        shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
+        ftruncate(shm_fd, SIZE);
+        ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
+        gridCoord* sqPos = malloc(9 * sizeof(gridCoord));
+        int index = 0;
+
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j <= 6; j+=3){
+                sqPos[index].x = i * 3;
+                sqPos[index].y = j;
+                index++;
+            }
+        }
+
+        for(int i = 0; i < 9; i++){
+            int startX = sqPos[i].x;
+            int startY = sqPos[i].y;
+            for(int x = startX; x < startX+3; x++){
+                for(int y = startY; y < startY+3; y++){
+                    c3[s[x][y]-1]++;
+                }
+            }
+
+            for (int j = 0; j < 9; j++) {
+                if (c3[j] != i+1) {
+                    solved = "NO";
+                }
+            }
+        }
+        for(int i = 0; i < 9; i++){
+            printf(" %d", c3[i]);
+        }
+        printf("\n");
     }
 }
 
@@ -213,55 +215,64 @@ int main(int argc, char **argv){
     }
 
     if(option == 1){
-        pthread_t threads[3];
-        gridCoord* sqPos = malloc(9 * sizeof(gridCoord));
-        int index = 0;
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j <= 6; j+=3){
-                sqPos[index].x = i * 3;
-                sqPos[index].y = j;
-                index++;
+        for(int att = 0; att < 50; att++){
+            pthread_t threads[3];
+            gridCoord* sqPos = malloc(9 * sizeof(gridCoord));
+            int index = 0;
+            for(int i = 0; i < 3; i++){
+                for(int j = 0; j <= 6; j+=3){
+                    sqPos[index].x = i * 3;
+                    sqPos[index].y = j;
+                    index++;
+                }
             }
-        }
-        pthread_create(&threads[0], NULL, doWork, NULL);
-        pthread_create(&threads[1], NULL, doWork1, NULL);
-        pthread_create(&threads[2], NULL, doWork2, &sqPos);
+            pthread_create(&threads[0], NULL, doWork, NULL);
+            pthread_create(&threads[1], NULL, doWork1, NULL);
+            pthread_create(&threads[2], NULL, doWork2, sqPos);
 
-        pthread_join(threads[0], NULL);
-        pthread_join(threads[1], NULL);
-        pthread_join(threads[2], NULL);
-
+            pthread_join(threads[0], NULL);
+            pthread_join(threads[1], NULL);
+            pthread_join(threads[2], NULL);
+        }    
         time_t ft = time(NULL) - st;
         printf("SOLUTION: %s (%ld seconds)",solved, ft);
     }
 
     if(option == 2){
-        pthread_t threads[27];
-        gridCoord* sqPos = malloc(9 * sizeof(gridCoord));
-        int index = 0;
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j <= 6; j+=3){
-                sqPos[index].x = i * 3;
-                sqPos[index].y = j;
-                index++;
+        for(int att = 0; att < 50; att++){
+            pthread_t threads[27];
+            gridCoord* sqPos = malloc(9 * sizeof(gridCoord));
+            int index = 0;
+            for(int i = 0; i < 3; i++){
+                for(int j = 0; j <= 6; j+=3){
+                    sqPos[index].x = i * 3;
+                    sqPos[index].y = j;
+                    index++;
+                }
+            }
+
+            for(int i = 0; i < 9; i++) {
+                pthread_create(&threads[i], NULL, doWork3, &i);
+                pthread_create(&threads[i+9], NULL, doWork4, &i);
+                pthread_create(&threads[i+18], NULL, doWork5, &sqPos[i]);
+            }
+            for(int i = 0; i < 27; i++) {
+                pthread_join(threads[i], NULL);
             }
         }
-
-        for(int i = 0; i < 9; i++) {
-            pthread_create(&threads[i], NULL, doWork3, &i);
-            pthread_create(&threads[i+9], NULL, doWork4, &i);
-            pthread_create(&threads[i+18], NULL, doWork5, &sqPos[i]);
-        }
-        for(int i = 0; i < 27; i++) {
-            pthread_join(threads[i], NULL);
-        }
+        
+        sleep(5);
         time_t ft = time(NULL) - st;
-        printf("SOLUTION: %s (%ld seconds)",solved, ft);
-        free(sqPos);
+        printf("SOLUTION: %s (%ld seconds)\n",solved, ft);
     }
 
     if(option == 3){
-        doOption3(st);
+        for(int att = 0; att < 1; att++){
+            doOption3();
+        }
+        
+        time_t ft = time(NULL) - st;
+        printf("SOLUTION: %s (%ld seconds)",solved, ft);
     }
 
     // printf("\nHere is the row array:");
