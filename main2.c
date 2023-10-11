@@ -16,7 +16,6 @@ typedef struct {
     int y;
 } gridCoord;
 
-
 void* doWork(void* param){
     int c[9] = {0};
     for (int i = 0; i < 9; i++){

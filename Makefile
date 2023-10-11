@@ -1,2 +1,5 @@
 all:
-	gcc -o main2 main2.c
+	gcc -o main main.c
+
+clean:
+	rm -r main
