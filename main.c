@@ -16,7 +16,8 @@ typedef struct {
     int y;
 } gridCoord;
 
-void* doWork(void* param){
+
+void* checkRows(void* param){ //check all rows
     int c[9] = {0};
     for (int i = 0; i < 9; i++){
         for (int j = 0; j < 9; j++) {
@@ -31,7 +32,7 @@ void* doWork(void* param){
     pthread_exit(0);
 }
 
-void* doWork1(void* param){
+void* checkCols(void* param){ //check all columns
     int c[9] = {0}; 
     for (int i = 0; i < 9; i++){
         for (int j = 0; j < 9; j++) {
@@ -46,7 +47,7 @@ void* doWork1(void* param){
     pthread_exit(0);
 }
 
-void* doWork2(void* param){
+void* checkSquares(void* param){ //check all squares
     int c[9] = {0}; 
     gridCoord* sq = (gridCoord*) param;
     for(int i = 0; i < 9; i++){
@@ -67,7 +68,7 @@ void* doWork2(void* param){
     pthread_exit(0);
 }
 
-void* doWork3(void* param){
+void* checkSingleRow(void* param){ //check a single row.  param is an integer pointer to the index of the row to check
     int c[9] = {0};
     int row = (*(int *)param);
     for (int i = 0; i < 9; i++) {
@@ -81,7 +82,7 @@ void* doWork3(void* param){
     pthread_exit(0);
 }
 
-void* doWork4(void* param){
+void* checkSingleCol(void* param){ //check a single column.  param is an integer pointer to the index of the column to check
     int c[9] = {0};
     int col = (*(int *)param);
     for (int i = 0; i < 9; i++) {
@@ -95,7 +96,7 @@ void* doWork4(void* param){
     pthread_exit(0);
 } 
 
-void* doWork5(void* param){
+void* checkSingleSquare(void* param){ //checks a single square.  param is a pointer to a gridCoord, which contains row and col index of the first number in the square
     int c[9] = {0}; 
     gridCoord* currPos = (gridCoord*) param;
     int startX = currPos->x;
@@ -114,7 +115,7 @@ void* doWork5(void* param){
     pthread_exit(0);
 }
 
-void doOption3(){
+void multiProcessCheck(){ //check all rows, columns, and squares, with a process for each category
     int SIZE = 4096;
     char* name = "solution?";
     char* ptr = "";
@@ -201,33 +202,18 @@ void doOption3(){
     } 
 }
 
-int main(int argc, char** argv){
-    int option;
-    if (argc==2) {
-        option = atoi(argv[1]);
-        if(!(option > 0 && option < 4)){
-            printf("Error: Please enter a value within the range of 1-3.\n");
-            return 1;
-        }
-    } else {
-        printf("Error: single integer argument required.\n");
-        return 1;
-    }
+int main(int argc, char **argv){
     FILE *fp = fopen("input.txt","r");
     time_t st = clock();
     time_t msPerS = CLOCKS_PER_SEC/100000;
-    
+    int option = atoi(argv[1]);
     for (int i = 0; i < 9; i++) {
-        fscanf(fp,"%d %d %d %d %d %d %d %d %d",
-        &s[i][0],&s[i][1],&s[i][2],&s[i][3],&s[i][4],
-        &s[i][5],&s[i][6],&s[i][7],&s[i][8]);
-        
-        printf("%d %d %d %d %d %d %d %d %d\n",
-        s[i][0],s[i][1],s[i][2],s[i][3],s[i][4],
-        s[i][5],s[i][6],s[i][7],s[i][8]);
+        fscanf(fp,"%d %d %d %d %d %d %d %d %d",&s[i][0],&s[i][1],&s[i][2],&s[i][3],&s[i][4],&s[i][5],&s[i][6],&s[i][7],&s[i][8]);
+        printf("%d %d %d %d %d %d %d %d %d\n",s[i][0],s[i][1],s[i][2],s[i][3],s[i][4],s[i][5],s[i][6],s[i][7],s[i][8]);
     }
 
     if(option == 1){
+        // for(int att = 0; att < 10; att++){
             pthread_t threads[3];
             gridCoord* sqPos = malloc(9 * sizeof(gridCoord));
             int index = 0;
@@ -238,40 +224,56 @@ int main(int argc, char** argv){
                     index++;
                 }
             }
-            pthread_create(&threads[0], NULL, doWork, NULL);
-            pthread_create(&threads[1], NULL, doWork1, NULL);
-            pthread_create(&threads[2], NULL, doWork2, sqPos);
+            pthread_create(&threads[0], NULL, checkRows, NULL);
+            pthread_create(&threads[1], NULL, checkCols, NULL);
+            pthread_create(&threads[2], NULL, checkSquares, sqPos);
 
             pthread_join(threads[0], NULL);
             pthread_join(threads[1], NULL);
             pthread_join(threads[2], NULL);
+        // }    
+        // time_t ft = clock() - st;
+        // printf("SOLUTION: %s (%ld ns)\n",solved, ft/msPerS);
     }
 
     if(option == 2){
-        pthread_t threads[27];
-        gridCoord* sqPos = malloc(9 * sizeof(gridCoord));
-        int index = 0;
-        
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j <= 6; j+=3){
-                sqPos[index].x = i * 3;
-                sqPos[index].y = j;
-                index++;
+        // for(int att = 0; att < 10; att++){
+            pthread_t threads[27];
+            gridCoord* sqPos = malloc(9 * sizeof(gridCoord));
+            int index = 0;
+            
+            for(int i = 0; i < 3; i++){
+                for(int j = 0; j <= 6; j+=3){
+                    sqPos[index].x = i * 3;
+                    sqPos[index].y = j;
+                    index++;
+                }
             }
-        }
-        int params[9] = {0,1,2,3,4,5,6,7,8};
-        for(int i = 0; i < 9; i++) {
-            pthread_create(&threads[i], NULL, doWork3, &params[i]);
-            pthread_create(&threads[i+9], NULL, doWork4, &params[i]);
-            pthread_create(&threads[i+18], NULL, doWork5, &sqPos[i]);
-        }
-        for(int i = 0; i < 27; i++) {
-            pthread_join(threads[i], NULL);
-        }
+            int params[9] = {0,1,2,3,4,5,6,7,8};
+            for(int i = 0; i < 9; i++) {
+                pthread_create(&threads[i], NULL, checkSingleRow, &params[i]);
+                pthread_create(&threads[i+9], NULL, checkSingleCol, &params[i]);
+                pthread_create(&threads[i+18], NULL, checkSingleSquare, &sqPos[i]);
+            }
+            for(int i = 0; i < 27; i++) {
+                pthread_join(threads[i], NULL);
+            }
+        // }
+        
+        // if(att % 1000 == 0){
+            //     printf("Here is the index:%d, (%ld ms)\n", att, (clock() - st));
+            // }
+        // time_t ft = clock() - st;
+        // printf("SOLUTION: %s (%ld ns)\n",solved, ft/msPerS);
     }
 
     if(option == 3){
-        doOption3();
+        // for(int att = 0; att < 10; att++){
+            multiProcessCheck();
+        // }
+        
+        // time_t ft = clock() - st;
+        // printf("SOLUTION: %s (%ld ns)\n",solved, ft/msPerS);
     }
     
     fclose(fp);
