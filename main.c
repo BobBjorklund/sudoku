@@ -213,67 +213,51 @@ int main(int argc, char **argv){
     }
 
     if(option == 1){
-        // for(int att = 0; att < 10; att++){
-            pthread_t threads[3];
-            gridCoord* sqPos = malloc(9 * sizeof(gridCoord));
-            int index = 0;
-            for(int i = 0; i < 3; i++){
-                for(int j = 0; j <= 6; j+=3){
-                    sqPos[index].x = i * 3;
-                    sqPos[index].y = j;
-                    index++;
-                }
+        
+        pthread_t threads[3];
+        gridCoord* sqPos = malloc(9 * sizeof(gridCoord));
+        int index = 0;
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j <= 6; j+=3){
+                sqPos[index].x = i * 3;
+                sqPos[index].y = j;
+                index++;
             }
-            pthread_create(&threads[0], NULL, checkRows, NULL);
-            pthread_create(&threads[1], NULL, checkCols, NULL);
-            pthread_create(&threads[2], NULL, checkSquares, sqPos);
+        }
+        pthread_create(&threads[0], NULL, checkRows, NULL);
+        pthread_create(&threads[1], NULL, checkCols, NULL);
+        pthread_create(&threads[2], NULL, checkSquares, sqPos);
 
-            pthread_join(threads[0], NULL);
-            pthread_join(threads[1], NULL);
-            pthread_join(threads[2], NULL);
-        // }    
-        // time_t ft = clock() - st;
-        // printf("SOLUTION: %s (%ld ns)\n",solved, ft/msPerS);
+        pthread_join(threads[0], NULL);
+        pthread_join(threads[1], NULL);
+        pthread_join(threads[2], NULL);
     }
 
     if(option == 2){
-        // for(int att = 0; att < 10; att++){
-            pthread_t threads[27];
-            gridCoord* sqPos = malloc(9 * sizeof(gridCoord));
-            int index = 0;
-            
-            for(int i = 0; i < 3; i++){
-                for(int j = 0; j <= 6; j+=3){
-                    sqPos[index].x = i * 3;
-                    sqPos[index].y = j;
-                    index++;
-                }
-            }
-            int params[9] = {0,1,2,3,4,5,6,7,8};
-            for(int i = 0; i < 9; i++) {
-                pthread_create(&threads[i], NULL, checkSingleRow, &params[i]);
-                pthread_create(&threads[i+9], NULL, checkSingleCol, &params[i]);
-                pthread_create(&threads[i+18], NULL, checkSingleSquare, &sqPos[i]);
-            }
-            for(int i = 0; i < 27; i++) {
-                pthread_join(threads[i], NULL);
-            }
-        // }
+        pthread_t threads[27];
+        gridCoord* sqPos = malloc(9 * sizeof(gridCoord));
+        int index = 0;
         
-        // if(att % 1000 == 0){
-            //     printf("Here is the index:%d, (%ld ms)\n", att, (clock() - st));
-            // }
-        // time_t ft = clock() - st;
-        // printf("SOLUTION: %s (%ld ns)\n",solved, ft/msPerS);
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j <= 6; j+=3){
+                sqPos[index].x = i * 3;
+                sqPos[index].y = j;
+                index++;
+            }
+        }
+        int params[9] = {0,1,2,3,4,5,6,7,8};
+        for(int i = 0; i < 9; i++) {
+            pthread_create(&threads[i], NULL, checkSingleRow, &params[i]);
+            pthread_create(&threads[i+9], NULL, checkSingleCol, &params[i]);
+            pthread_create(&threads[i+18], NULL, checkSingleSquare, &sqPos[i]);
+        }
+        for(int i = 0; i < 27; i++) {
+            pthread_join(threads[i], NULL);
+        }
     }
 
     if(option == 3){
-        // for(int att = 0; att < 10; att++){
-            multiProcessCheck();
-        // }
-        
-        // time_t ft = clock() - st;
-        // printf("SOLUTION: %s (%ld ns)\n",solved, ft/msPerS);
+        multiProcessCheck();
     }
     
     fclose(fp);
