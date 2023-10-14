@@ -1,0 +1,94 @@
+1 2 3 4 5 6 7 8 9
+4 5 6 7 8 9 1 2 3
+7 8 9 1 2 3 4 5 6
+8 9 7 2 3 1 5 6 4
+5 6 4 8 9 7 2 3 1
+2 3 1 5 6 4 8 9 7
+3 1 2 6 4 5 9 7 8
+9 7 8 3 1 2 6 4 5
+6 4 5 9 7 8 3 1 2
+VALID
+
+SOLUTION: YES (39 ns)
+SOLUTION: YES (42 ns)
+SOLUTION: YES (37 ns)
+SOLUTION: YES (35 ns)
+SOLUTION: YES (38 ns)
+SOLUTION: YES (42 ns)
+SOLUTION: YES (38 ns)
+SOLUTION: YES (38 ns)
+SOLUTION: YES (45 ns)
+SOLUTION: YES (37 ns)
+SOLUTION: YES (34 ns)
+SOLUTION: YES (35 ns)
+SOLUTION: YES (37 ns)
+SOLUTION: YES (36 ns)
+SOLUTION: YES (35 ns)
+SOLUTION: YES (37 ns)
+SOLUTION: YES (44 ns)
+SOLUTION: YES (44 ns)
+SOLUTION: YES (40 ns)
+SOLUTION: YES (45 ns)
+1 2 3 4 5 6 7 8 9
+4 5 6 7 8 9 1 2 3
+7 8 9 1 2 3 4 5 6
+1 2 3 4 5 6 7 8 9
+4 5 6 7 8 9 1 2 3
+7 8 9 1 2 3 4 5 6
+1 2 3 4 5 6 7 8 9
+4 5 6 7 8 9 1 2 3
+7 8 9 1 2 3 4 5 6 
+<valid squares and rows, invalid cols>
+
+SOLUTION: NO (39 ns)
+SOLUTION: NO (39 ns)
+SOLUTION: NO (39 ns)
+SOLUTION: NO (43 ns)
+SOLUTION: NO (44 ns)
+SOLUTION: NO (39 ns)
+SOLUTION: NO (37 ns)
+SOLUTION: NO (38 ns)
+SOLUTION: NO (36 ns)
+SOLUTION: NO (36 ns)
+1 4 7 1 4 7 1 4 7
+2 5 8 2 5 8 2 5 8
+3 6 9 3 6 9 3 6 9
+4 7 1 4 7 1 4 7 1
+5 8 2 5 8 2 5 8 2
+6 9 3 6 9 3 6 9 3
+7 1 4 7 1 4 7 1 4
+8 2 5 8 2 5 8 2 5
+9 3 6 9 3 6 9 3 6 
+<valid cols and squares, invalid rows>
+
+SOLUTION: NO (38 ns)
+SOLUTION: NO (34 ns)
+SOLUTION: NO (37 ns)
+SOLUTION: NO (35 ns)
+SOLUTION: NO (36 ns)
+SOLUTION: NO (39 ns)
+SOLUTION: NO (38 ns)
+SOLUTION: NO (37 ns)
+SOLUTION: NO (37 ns)
+SOLUTION: NO (35 ns)
+1 2 3 4 5 6 7 8 9
+2 3 4 5 6 7 8 9 1
+3 4 5 6 7 8 9 1 2
+4 5 6 7 8 9 1 2 3
+5 6 7 8 9 1 2 3 4
+6 7 8 9 1 2 3 4 5
+7 8 9 1 2 3 4 5 6
+8 9 1 2 3 4 5 6 7
+9 1 2 3 4 5 6 7 8 
+<valid cols and rows, invalid squares>
+
+SOLUTION: NO (37 ns)
+SOLUTION: NO (41 ns)
+SOLUTION: NO (39 ns)
+SOLUTION: NO (39 ns)
+SOLUTION: NO (39 ns)
+SOLUTION: NO (39 ns)
+SOLUTION: NO (40 ns)
+SOLUTION: NO (38 ns)
+SOLUTION: NO (38 ns)
+SOLUTION: NO (35 ns)
